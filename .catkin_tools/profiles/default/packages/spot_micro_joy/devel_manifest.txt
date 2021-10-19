@@ -1,0 +1,5 @@
+spot_micro_joy
+/home/zlo/robodog/devel/.private/spot_micro_joy/cmake.lock /home/zlo/robodog/devel/./cmake.lock
+/home/zlo/robodog/devel/.private/spot_micro_joy/lib/pkgconfig/spot_micro_joy.pc /home/zlo/robodog/devel/lib/pkgconfig/spot_micro_joy.pc
+/home/zlo/robodog/devel/.private/spot_micro_joy/share/spot_micro_joy/cmake/spot_micro_joyConfig.cmake /home/zlo/robodog/devel/share/spot_micro_joy/cmake/spot_micro_joyConfig.cmake
+/home/zlo/robodog/devel/.private/spot_micro_joy/share/spot_micro_joy/cmake/spot_micro_joyConfig-version.cmake /home/zlo/robodog/devel/share/spot_micro_joy/cmake/spot_micro_joyConfig-version.cmake

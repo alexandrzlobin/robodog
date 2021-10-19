@@ -1,0 +1,2 @@
+lcd_monitor:realsense-ros/realsense2_camera:realsense-ros/realsense2_description:ros-i2cpwmboard:ros_bno08x:servo_move_keyboard:spot_micro_joy:spot_micro_keyboard_command:spot_micro_launch:spot_micro_motion_cmd:spot_micro_plot:spot_micro_rviz
+-DCATKIN_DEVEL_PREFIX=/home/zlo/robodog/devel -DCMAKE_INSTALL_PREFIX=/home/zlo/robodog/install -G Unix Makefiles

@@ -1,0 +1,8 @@
+prefix=/home/zlo/robodog/devel
+
+Name: i2cpwm_board
+Description: Description of i2cpwm_board
+Version: 0.5.1
+Cflags: -I/home/zlo/robodog/devel/include
+Libs: -L${prefix}/lib 
+Requires: roscpp std_msgs message_runtime

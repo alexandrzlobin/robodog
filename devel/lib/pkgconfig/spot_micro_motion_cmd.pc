@@ -1,0 +1,8 @@
+prefix=/home/zlo/robodog/devel
+
+Name: spot_micro_motion_cmd
+Description: Description of spot_micro_motion_cmd
+Version: 0.0.0
+Cflags: -I/home/zlo/robodog/src/spot_micro_motion_cmd/include/spot_micro_motion_cmd
+Libs: -L${prefix}/lib 
+Requires: roscpp std_msgs geometry_msgs tf2 tf2_ros

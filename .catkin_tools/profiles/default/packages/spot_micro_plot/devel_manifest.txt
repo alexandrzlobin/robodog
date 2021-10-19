@@ -1,0 +1,5 @@
+spot_micro_plot
+/home/zlo/robodog/devel/.private/spot_micro_plot/cmake.lock /home/zlo/robodog/devel/./cmake.lock
+/home/zlo/robodog/devel/.private/spot_micro_plot/lib/pkgconfig/spot_micro_plot.pc /home/zlo/robodog/devel/lib/pkgconfig/spot_micro_plot.pc
+/home/zlo/robodog/devel/.private/spot_micro_plot/share/spot_micro_plot/cmake/spot_micro_plotConfig.cmake /home/zlo/robodog/devel/share/spot_micro_plot/cmake/spot_micro_plotConfig.cmake
+/home/zlo/robodog/devel/.private/spot_micro_plot/share/spot_micro_plot/cmake/spot_micro_plotConfig-version.cmake /home/zlo/robodog/devel/share/spot_micro_plot/cmake/spot_micro_plotConfig-version.cmake

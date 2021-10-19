@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/test_spot_micro_leg.dir/tests/test_spot_micro_leg.cpp.o  -o test_spot_micro_leg -Wl,-rpath,/home/zlo/robodog/devel/lib:/home/zlo/robodog/build/gtest/googlemock/gtest /home/zlo/robodog/devel/lib/libspot_micro_kinematics.so ../../../gtest/googlemock/gtest/libgtest_main.so ../../../gtest/googlemock/gtest/libgtest.so -lpthread 

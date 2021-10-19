@@ -1,0 +1,5 @@
+spot_micro_keyboard_command
+/home/zlo/robodog/devel/.private/spot_micro_keyboard_command/cmake.lock /home/zlo/robodog/devel/./cmake.lock
+/home/zlo/robodog/devel/.private/spot_micro_keyboard_command/lib/pkgconfig/spot_micro_keyboard_command.pc /home/zlo/robodog/devel/lib/pkgconfig/spot_micro_keyboard_command.pc
+/home/zlo/robodog/devel/.private/spot_micro_keyboard_command/share/spot_micro_keyboard_command/cmake/spot_micro_keyboard_commandConfig.cmake /home/zlo/robodog/devel/share/spot_micro_keyboard_command/cmake/spot_micro_keyboard_commandConfig.cmake
+/home/zlo/robodog/devel/.private/spot_micro_keyboard_command/share/spot_micro_keyboard_command/cmake/spot_micro_keyboard_commandConfig-version.cmake /home/zlo/robodog/devel/share/spot_micro_keyboard_command/cmake/spot_micro_keyboard_commandConfig-version.cmake
