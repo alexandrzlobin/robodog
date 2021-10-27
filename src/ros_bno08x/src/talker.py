@@ -24,7 +24,7 @@ def bno08x_node():
     mag_pub = rospy.Publisher('imu/mag', MagneticField, queue_size=10)
     status_pub = rospy.Publisher('imu/status', DiagnosticStatus, queue_size=10)
     rospy.init_node('imu')
-    rate = rospy.Rate(25) # frequency in Hz
+    rate = rospy.Rate(100) # frequency in Hz
     rospy.loginfo(rospy.get_caller_id() + "  bno08x node launched.")
 
     i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)
@@ -37,26 +37,21 @@ def bno08x_node():
     
     time.sleep(0.5) # ensure IMU is initialized
 
-
-    frame = "imu_link"
     while True:
         raw_msg = Imu()
         raw_msg.header.stamp = rospy.Time.now()
-        raw_msg.header.frame_id = str(frame)
+        raw_msg.header.frame_id = str("base_link")
 
-        # Linear acceleration
         accel_x, accel_y, accel_z = bno.acceleration
         raw_msg.linear_acceleration.x = accel_x
         raw_msg.linear_acceleration.y = accel_y
         raw_msg.linear_acceleration.z = accel_z
 
-        # Angular velocity
         gyro_x, gyro_y, gyro_z = bno.gyro
         raw_msg.angular_velocity.x = gyro_x
         raw_msg.angular_velocity.y = gyro_y
         raw_msg.angular_velocity.z = gyro_z
-
-        # Orientation
+        
         quat_i, quat_j, quat_k, quat_real = bno.quaternion
         raw_msg.orientation.w = quat_i
         raw_msg.orientation.x = quat_j
@@ -70,11 +65,9 @@ def bno08x_node():
 
         raw_pub.publish(raw_msg)
 
-	# magntic
         mag_msg = MagneticField()
         mag_x, mag_y, mag_z = bno.magnetic
         mag_msg.header.stamp = rospy.Time.now()
-        mag_msg.header.frame_id = str(frame)
         mag_msg.magnetic_field.x = mag_x
         mag_msg.magnetic_field.y = mag_y
         mag_msg.magnetic_field.z = mag_z
@@ -87,9 +80,7 @@ def bno08x_node():
         status_msg.message = ""
         status_pub.publish(status_msg)
 
-        rate.sleep()
-
-        #frame += 1
+        rate.sleep()   
     
     rospy.loginfo(rospy.get_caller_id() + "  bno08x node finished")
 
