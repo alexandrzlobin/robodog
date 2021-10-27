@@ -1,6 +1,0 @@
-lcd_monitor
-/home/zlo/robodog/devel/.private/lcd_monitor/cmake.lock /home/zlo/robodog/devel/./cmake.lock
-/home/zlo/robodog/devel/.private/lcd_monitor/lib/pkgconfig/lcd_monitor.pc /home/zlo/robodog/devel/lib/pkgconfig/lcd_monitor.pc
-/home/zlo/robodog/devel/.private/lcd_monitor/lib/python2.7/dist-packages/lcd_monitor/__init__.py /home/zlo/robodog/devel/lib/python2.7/dist-packages/lcd_monitor/__init__.py
-/home/zlo/robodog/devel/.private/lcd_monitor/share/lcd_monitor/cmake/lcd_monitorConfig.cmake /home/zlo/robodog/devel/share/lcd_monitor/cmake/lcd_monitorConfig.cmake
-/home/zlo/robodog/devel/.private/lcd_monitor/share/lcd_monitor/cmake/lcd_monitorConfig-version.cmake /home/zlo/robodog/devel/share/lcd_monitor/cmake/lcd_monitorConfig-version.cmake
