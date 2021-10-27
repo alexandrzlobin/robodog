@@ -1,1 +1,0 @@
-set(ORDERED_PATHS "/home/zlo/spotMicro/devel/lib;/opt/ros/melodic/lib")
