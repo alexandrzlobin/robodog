@@ -5,13 +5,12 @@ import tf2_ros
 import geometry_msgs.msg
 from sensor_msgs.msg import Temperature, Imu
 
-
 def handle_imu_pose(msg):
     br = tf2_ros.TransformBroadcaster()
     t = geometry_msgs.msg.TransformStamped()
 
     t.header.stamp = rospy.Time.now()
-    t.header.frame_id = "base_footprint"
+    t.header.frame_id = "base_link"
     t.child_frame_id = "imu_link"
     t.transform.translation.x = 0
     t.transform.translation.y = 0

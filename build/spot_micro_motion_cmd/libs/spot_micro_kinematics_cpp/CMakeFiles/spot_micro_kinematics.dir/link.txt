@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC   -shared -Wl,-soname,libspot_micro_kinematics.so -o /home/zlo/robodog/devel/lib/libspot_micro_kinematics.so CMakeFiles/spot_micro_kinematics.dir/src/spot_micro_kinematics.cpp.o CMakeFiles/spot_micro_kinematics.dir/src/utils.cpp.o CMakeFiles/spot_micro_kinematics.dir/src/spot_micro_leg.cpp.o 

@@ -1,5 +1,0 @@
-spot_micro_launch
-/home/zlo/robodog/devel/.private/spot_micro_launch/cmake.lock /home/zlo/robodog/devel/./cmake.lock
-/home/zlo/robodog/devel/.private/spot_micro_launch/lib/pkgconfig/spot_micro_launch.pc /home/zlo/robodog/devel/lib/pkgconfig/spot_micro_launch.pc
-/home/zlo/robodog/devel/.private/spot_micro_launch/share/spot_micro_launch/cmake/spot_micro_launchConfig-version.cmake /home/zlo/robodog/devel/share/spot_micro_launch/cmake/spot_micro_launchConfig-version.cmake
-/home/zlo/robodog/devel/.private/spot_micro_launch/share/spot_micro_launch/cmake/spot_micro_launchConfig.cmake /home/zlo/robodog/devel/share/spot_micro_launch/cmake/spot_micro_launchConfig.cmake

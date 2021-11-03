@@ -9,7 +9,7 @@ Panels:
         - /RobotModel1
         - /TF1
         - /Imu1
-        - /Imu1/Status1
+        - /LaserScan1
       Splitter Ratio: 0.5
     Tree Height: 306
   - Class: rviz/Selection
@@ -30,7 +30,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: LaserScan
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -232,6 +232,8 @@ Visualization Manager:
           Value: true
         lidar_link:
           Value: true
+        map:
+          Value: true
         odom:
           Value: true
         rear_left_foot_link:
@@ -256,51 +258,56 @@ Visualization Manager:
           Value: true
         rear_right_toe_link:
           Value: true
+        scanmatcher_frame:
+          Value: true
       Marker Scale: 0.5
       Name: TF
       Show Arrows: false
       Show Axes: false
       Show Names: false
       Tree:
-        odom:
-          base_footprint:
-            base_link:
-              front_left_shoulder_link:
-                front_left_leg_link:
-                  front_left_foot_link:
-                    front_left_toe_link:
+        map:
+          odom:
+            base_footprint:
+              base_link:
+                front_left_shoulder_link:
+                  front_left_leg_link:
+                    front_left_foot_link:
+                      front_left_toe_link:
+                        {}
+                    front_left_leg_link_cover:
                       {}
-                  front_left_leg_link_cover:
-                    {}
-              front_link:
-                {}
-              front_right_shoulder_link:
-                front_right_leg_link:
-                  front_right_foot_link:
-                    front_right_toe_link:
+                front_link:
+                  {}
+                front_right_shoulder_link:
+                  front_right_leg_link:
+                    front_right_foot_link:
+                      front_right_toe_link:
+                        {}
+                    front_right_leg_link_cover:
                       {}
-                  front_right_leg_link_cover:
-                    {}
-              lidar_link:
-                {}
-              rear_left_shoulder_link:
-                rear_left_leg_link:
-                  rear_left_foot_link:
-                    rear_left_toe_link:
+                lidar_link:
+                  {}
+                rear_left_shoulder_link:
+                  rear_left_leg_link:
+                    rear_left_foot_link:
+                      rear_left_toe_link:
+                        {}
+                    rear_left_leg_link_cover:
                       {}
-                  rear_left_leg_link_cover:
-                    {}
-              rear_link:
-                {}
-              rear_right_shoulder_link:
-                rear_right_leg_link:
-                  rear_right_foot_link:
-                    rear_right_toe_link:
+                rear_link:
+                  {}
+                rear_right_shoulder_link:
+                  rear_right_leg_link:
+                    rear_right_foot_link:
+                      rear_right_toe_link:
+                        {}
+                    rear_right_leg_link_cover:
                       {}
-                  rear_right_leg_link_cover:
-                    {}
             imu_link:
               {}
+          scanmatcher_frame:
+            {}
       Update Interval: 0
       Value: true
     - Alpha: 0
@@ -312,11 +319,49 @@ Visualization Manager:
       Topic: /imu/raw
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: LaserScan
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic: /scan
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /map
+      Unreliable: false
+      Use Timestamp: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: imu_link
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -355,10 +400,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: -0.43020233511924744
+      Pitch: 0.3397977948188782
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.0767717361450195
+      Yaw: 0.8967698216438293
     Saved: ~
 Window Geometry:
   Displays:
@@ -376,5 +421,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1321
-  X: 236
-  Y: 59
+  X: 114
+  Y: 68

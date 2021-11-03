@@ -6,6 +6,6 @@
   <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
-  <node name="bno" pkg="ros_bno08x" type="tf_broadcaster_imu.py"/>
+  <node name="imu" pkg="ros_bno08x" type="tf_broadcaster_imu.py"/>
 </launch>
 

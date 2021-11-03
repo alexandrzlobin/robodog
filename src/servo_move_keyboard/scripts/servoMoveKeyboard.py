@@ -7,9 +7,10 @@ installed
 import rospy
 import sys, select, termios, tty # For terminal keyboard key press reading
 from i2cpwm_board.msg import Servo, ServoArray
+import yaml
 
 # Global variable for number of servos
-numServos = 12 
+numServos = 12
 
 msg = """
 Servo Control Module for 12 Servos.
@@ -50,10 +51,10 @@ keyDict = {
     'z': lambda x: x.set_value(x._min),
     'y': lambda x: x.set_value(x._center),
     'x': lambda x: x.set_value(x._max),
-    'f': lambda x: x.set_value(x.value-10),
-    'g': lambda x: x.set_value(x.value-1),
-    'j': lambda x: x.set_value(x.value+1),
-    'k': lambda x: x.set_value(x.value+10),
+    'f': lambda x: x.set_value(x.value-10*x.dir),
+    'g': lambda x: x.set_value(x.value-1*x.dir),
+    'j': lambda x: x.set_value(x.value+1*x.dir),
+    'k': lambda x: x.set_value(x.value+10*x.dir),
     'b': lambda x: x.set_min(x.value),
     'n': lambda x: x.set_center(x.value),
     'm': lambda x: x.set_max(x.value),
@@ -70,21 +71,23 @@ class ServoConvert():
     These nominal values would coorespond to integer values of approximately 204, 306, and 409
     for 1 ms, 1.5 ms, and 2 ms, respectively
     '''
-    def __init__(self, id=1, center_value=306, direction=1):
+    def __init__(self, id, center_value, range, direction):
         self.value      = center_value
         self._center    = center_value
-        self._min       = 83
-        self._max       = 520
+        self._min       = center_value-(range*direction)/2
+        self._max       = center_value+(range*direction)/2
         self._dir       = direction
+        self.dir        = direction
         self.id         = id
+        print("id: %d, center: %d, min: %d, max: %d, dir: %d" % (self.id, self._center, self._min, self._max, self._dir))
 
     def set_value(self, value_in):
         '''
         Set Servo value
         Input: Value between 0 and 4095
         '''
-        if value_in not in range(4096):
-            print('Servo value not in range [0,4095]')
+        if value_in not in (range(self._min, self._max+1) if self._min < self._max else range(self._max, self._min+1)):
+            print('Servo value not in range [%d,%d]' % (self._min, self._max))
         else:
             self.value = value_in
 
@@ -132,11 +135,29 @@ class SpotMicroServoControl():
         # Intialize empty servo dictionary
         self.servos = {}
 
+        read_data = yaml.load(open('/home/zlo/robodog/src/spot_micro_motion_cmd/config/spot_micro_motion_cmd.yaml'))
+        print(read_data)
+
+        def xyu(id, name):
+            return ServoConvert(id=id, center_value=read_data[name]['center'], range=read_data[name]['range'], direction=read_data[name]['direction'])
+
         # Create a servo dictionary with 12 ServoConvert objects
         # keys: integers 0 through 12
         # values: ServoConvert objects
         for i in range(numServos):
-            self.servos[i] = ServoConvert(id=i)
+            if   i == 0:  self.servos[i] = xyu(i, 'RF_3')
+            elif i == 1:  self.servos[i] = xyu(i, 'RF_2')
+            elif i == 2:  self.servos[i] = xyu(i, 'RF_1')
+            elif i == 3:  self.servos[i] = xyu(i, 'LF_3')
+            elif i == 4:  self.servos[i] = xyu(i, 'LF_2')
+            elif i == 5:  self.servos[i] = xyu(i, 'LF_1')
+            elif i == 6:  self.servos[i] = xyu(i, 'RB_3')
+            elif i == 7:  self.servos[i] = xyu(i, 'RB_2')
+            elif i == 8:  self.servos[i] = xyu(i, 'RB_1')
+            elif i == 9:  self.servos[i] = xyu(i, 'LB_3')
+            elif i == 10: self.servos[i] = xyu(i, 'LB_2')
+            elif i == 11: self.servos[i] = xyu(i, 'LB_1')
+            else: self.servos[i] = ServoConvert(id=i, center_value=10, range=5, direction=1)
         rospy.loginfo("> Servos corrrectly initialized")
 
         # Create empty ServoArray message with n number of Servos in its array

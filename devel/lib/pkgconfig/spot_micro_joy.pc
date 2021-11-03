@@ -1,8 +1,0 @@
-prefix=/home/zlo/robodog/devel
-
-Name: spot_micro_joy
-Description: Description of spot_micro_joy
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
