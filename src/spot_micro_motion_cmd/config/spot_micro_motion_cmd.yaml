@@ -24,13 +24,13 @@ servo_max_angle_deg: 82
 RF_3: {num: 1,  center: 1530, range: 2365, direction:    1, center_angle_deg:  3.49}
 RF_2: {num: 2,  center: 1530, range: 2401.7,  direction:    1, center_angle_deg: -65.95}
 RF_1: {num: 3,  center: 1530, range: 2603.3,  direction:    -1, center_angle_deg:  -5.07}
-LF_3: {num: 4,  center: 1530, range: 2310, direction:    1, center_angle_deg: -107.14}
-LF_2: {num: 5,  center: 1530, range: 2218.3,  direction:    1, center_angle_deg:  -23.06}
+LF_3: {num: 4,  center: 1530, range: 2330, direction:    1, center_angle_deg: -120.87}
+LF_2: {num: 5,  center: 1530, range: 2236.7,  direction:    1, center_angle_deg:  -20.66}
 LF_1: {num: 6,  center: 1530, range: 2640,  direction:    1, center_angle_deg:  -25.63}
-RB_3: {num: 7,  center: 1530, range: 2915, direction:    1, center_angle_deg:  19.81}
+RB_3: {num: 7,  center: 1530, range: 2365, direction:    1, center_angle_deg:  3.49}
 RB_2: {num: 8,  center: 1530, range: 2365,  direction:    1, center_angle_deg: -58.6}
 RB_1: {num: 9,  center: 1530, range: 2603.3,  direction:    1, center_angle_deg:  -39.93}
-LB_3: {num: 10, center: 1530, range: 2511.7, direction:    1, center_angle_deg: -91.97}
+LB_3: {num: 10, center: 1530, range: 2310, direction:    1, center_angle_deg: -107.14}
 LB_2: {num: 11, center: 1530, range: 2475,  direction:    1, center_angle_deg:  -18.67}
 LB_1: {num: 12, center: 1530, range: 2493.3,  direction:    -1, center_angle_deg:  58.24}
 

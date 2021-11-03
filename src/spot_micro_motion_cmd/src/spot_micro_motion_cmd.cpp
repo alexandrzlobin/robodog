@@ -545,6 +545,18 @@ void SpotMicroMotionCmd::publishStaticTransforms() {
                                0.0, 0.0, 0.0,
                                0.0, 0.0, 0.0);
   static_transform_br_.sendTransform(tr_stamped);
+  
+  //imu link to base_link transform
+  tr_stamped = createTransform("base_link", "imu_link",
+                               0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0);
+  static_transform_br_.sendTransform(tr_stamped);
+
+  //camera to base_link transform
+  tr_stamped = createTransform("base_link", "camera_link",
+                               0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0);
+  static_transform_br_.sendTransform(tr_stamped);
 
   // base_link to lidar_link transform
   float x_offset = smnc_.lidar_x_pos;
