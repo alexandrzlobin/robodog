@@ -15,7 +15,7 @@
 
         <!-- Launch rplidar node for lidar driver -->
         <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
-            <param name="serial_port"         type="string" value="/dev/ttyUSB1"/>
+            <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
             <param name="serial_baudrate"     type="int"    value="115200"/><!--A1/A2 -->
             <param name="frame_id"            type="string" value="lidar_link"/>
             <param name="inverted"            type="bool"   value="false"/>
@@ -67,6 +67,16 @@
         -->
         <param name="tf_map_scanmatch_transform_frame_name" value="scanmatcher_frame" />
     </node>
+
+    <node pkg="robot_localization" type="ukf_localization_node" name="ukf_se" clear_params="true">
+    <rosparam command="load" file="$(find robot_localization)/params/ukf_template.yaml" />
+
+    <!--  Placeholder for output topic remapping
+    <remap from="odometry/filtered" to=""/>
+    <remap from="accel/filtered" to=""/>
+    -->
+
+  </node>
 
 <!-- Optional hector geotiff mapper node for creating geotiff map output -->
 <!-- This does not create a map in a format useable for navigation, but only an image -->
