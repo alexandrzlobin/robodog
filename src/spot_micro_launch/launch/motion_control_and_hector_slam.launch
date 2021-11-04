@@ -68,15 +68,9 @@
         <param name="tf_map_scanmatch_transform_frame_name" value="scanmatcher_frame" />
     </node>
 
-    <node pkg="robot_localization" type="ukf_localization_node" name="ukf_se" clear_params="true">
-    <rosparam command="load" file="$(find robot_localization)/params/ukf_template.yaml" />
-
-    <!--  Placeholder for output topic remapping
-    <remap from="odometry/filtered" to=""/>
-    <remap from="accel/filtered" to=""/>
-    -->
-
-  </node>
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_odom_node" output="screen" >
+       <rosparam command="load" file="$(find robot_localization)/params/ukf_template.yaml" />
+    </node>
 
 <!-- Optional hector geotiff mapper node for creating geotiff map output -->
 <!-- This does not create a map in a format useable for navigation, but only an image -->
