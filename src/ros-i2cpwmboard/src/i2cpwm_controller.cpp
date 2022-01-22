@@ -1257,13 +1257,15 @@ bool config_servos (i2cpwm_board::ServosConfig::Request &req, i2cpwm_board::Serv
 		res.error = -1;
 		return true;
 	}
-
+	
+	
+	
 	for (i=0;i<req.servos.size();i++) {
 		int servo = req.servos[i].servo;
 		int center = req.servos[i].center;
 		int range = req.servos[i].range;
 		int direction = req.servos[i].direction;
-
+		
 		_config_servo (servo, center, range, direction);
 	}
 	
@@ -1456,7 +1458,7 @@ static int _load_params (void)
         _set_active_board (i);
         _set_pwm_frequency (pwm);
 	}
-    _set_active_board (1);
+    //_set_active_board (1);
 	
 	/*
 	  // note: servos are numbered sequntially with '1' being the first servo on board #1, '17' is the first servo on board #2

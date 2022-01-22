@@ -24,7 +24,7 @@
         </node>
     </group>
 
-
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
     <!-- Launch hector mapping node for SLAM -->
     <arg name="geotiff_map_file_path" default="$(find hector_geotiff)/maps"/>
     <node pkg="hector_mapping" type="hector_mapping" name="hector_mapping" output="screen"> 
