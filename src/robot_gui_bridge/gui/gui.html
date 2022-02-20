@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+
+  <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.7.3/nipplejs.js"></script>
+
+  <script type="text/javascript" type="text/javascript">
+    var ros = new ROSLIB.Ros({
+      url: 'ws://localhost:9090'
+    });
+
+    ros.on('connection', function () {
+      document.getElementById("status").innerHTML = "Connected";
+    });
+
+    ros.on('error', function (error) {
+      document.getElementById("status").innerHTML = "Error";
+    });
+
+    ros.on('close', function () {
+      document.getElementById("status").innerHTML = "Closed";
+    });
+
+
+    var txt_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/txt_msg',
+      messageType: 'std_msgs/String'
+    });
+
+    txt_listener.subscribe(function (m) {
+      document.getElementById("msg").innerHTML = m.data;
+      move(1, 0);
+    });
+
+
+cmd_walk_listener = new ROSLIB.Topic({
+	ros: ros,
+	name: "/walk_cmd",
+	messageType: 'std_msgs/Bool'
+});
+
+
+cmd_walk_listener.subscribe(function (m) {
+      walk();
+    });
+
+walk = function (){
+	var walk = new ROSLIB.Message(
+		{data: true}
+	);
+	
+      cmd_walk_listener.publish(walk);
+}
+
+cmd_stand_listener = new ROSLIB.Topic({
+	ros: ros,
+	name: "/stand_cmd",
+	messageType: 'std_msgs/Bool'
+});
+
+
+cmd_stand_listener.subscribe(function (m) {
+      stand();
+    });
+
+stand = function (){
+	var stand = new ROSLIB.Message(
+		{data: true}
+	);
+	
+      cmd_stand_listener.publish(stand);
+}
+
+
+cmd_idle_listener = new ROSLIB.Topic({
+	ros: ros,
+	name: "/idle_cmd",
+	messageType: 'std_msgs/Bool'
+});
+
+cmd_idle_listener.subscribe(function (m) {
+      idle();
+    });
+
+idle = function (){
+	var idle = new ROSLIB.Message(
+		{data: true}
+	);
+	
+      cmd_idle_listener.publish(idle);
+}
+
+    cmd_vel_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: "/cmd_vel",
+      messageType: 'geometry_msgs/Twist'
+    });
+
+    move = function (linear, angular) {
+      var twist = new ROSLIB.Message({
+        linear: {
+          x: linear,
+          y: 0,
+          z: 0
+        },
+        angular: {
+          x: 0,
+          y: 0,
+          z: angular
+        }
+      });
+      cmd_vel_listener.publish(twist);
+    }
+
+    createJoystickVel = function () {
+      var options = {
+        zone: document.getElementById('zone_joystick_vel'),
+        threshold: 0.1,
+        position: { left: '50%', top: '50%'},
+        mode: 'static',
+        size: 150,
+        color: '#000000',
+      };
+      manager = nipplejs.create(options);
+
+      linear_speed = 0;
+      angular_speed = 0;
+
+      manager.on('start', function (event, nipple) {
+        timer = setInterval(function () {
+          move(linear_speed, angular_speed);
+        }, 25);
+      });
+
+      manager.on('move', function (event, nipple) {
+        max_linear = 5.0; // m/s
+        max_angular = 2.0; // rad/s
+        max_distance = 75.0; // pixels;
+        linear_speed = Math.sin(nipple.angle.radian) * max_linear * nipple.distance/max_distance;
+				angular_speed = -Math.cos(nipple.angle.radian) * max_angular * nipple.distance/max_distance;
+      });
+
+      manager.on('end', function () {
+        if (timer) {
+          clearInterval(timer);
+        }
+        self.move(0, 0);
+      });
+    }
+
+
+createJoystickAng = function () {
+      var options = {
+        zone: document.getElementById('zone_joystick_ang'),
+        threshold: 0.1,
+        position: { right: '50%', top: '50%' },
+        mode: 'static',
+        size: 150,
+        color: '#000000',
+      };
+      manager = nipplejs.create(options);
+
+      linear_speed = 0;
+      angular_speed = 0;
+
+      manager.on('start', function (event, nipple) {
+        timer = setInterval(function () {
+          move(linear_speed, angular_speed);
+        }, 25);
+      });
+
+      manager.on('move', function (event, nipple) {
+        max_linear = 5.0; // m/s
+        max_angular = 2.0; // rad/s
+        max_distance = 75.0; // pixels;
+        linear_speed = Math.sin(nipple.angle.radian) * max_linear * nipple.distance/max_distance;
+				angular_speed = -Math.cos(nipple.angle.radian) * max_angular * nipple.distance/max_distance;
+      });
+
+      manager.on('end', function () {
+        if (timer) {
+          clearInterval(timer);
+        }
+        self.move(0, 0);
+      });
+    }
+    window.onload = function () {
+      	createJoystickAng();
+	createJoystickVel();
+    }
+
+  </script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+	<div class="container-fluid">
+		<nav class="navbar navbar-light bg-light">
+			<div class="container-fluid">
+				<span class="navbar-brand mb-0 h1">RoboDog</span>
+				<form class="form-inline">
+				    <button class="btn btn-outline-success" type="button" onClick="stand()">Stand</button>
+					<button class="btn btn-outline-default" type="button" onClick="walk()">Walk</button>
+					<button class="btn btn-outline-warning" type="button" onClick="idle()">Idle</button>
+				    <button class="btn btn-outline-danger" type="button">Stop</button>	
+				  </form>
+
+				<span class="navbar-text">
+				      Status <span id="status"></span>
+				</span>
+			</div>
+		</nav>
+		<div class="row align-items-center">
+		    <div class="col-2">
+		      <div id="zone_joystick_vel" style="position: relative;"></div>
+		    </div>
+		    <div class="col-8">
+		      <img src="http://localhost:8080/stream?topic=/camera1"></img>
+		    </div>
+		    <div class="col-2">
+		      <div id="zone_joystick_ang" style="position: relative;"></div>
+		    </div>
+		</div>
+	</div>
+
+  <p><span id="msg"></span></p>
+ 
+</body>
+
+</html>

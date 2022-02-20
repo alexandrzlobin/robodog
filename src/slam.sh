@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+sudo chmod 666 /dev/ttyUSB0
 # Launch the robot
 source /home/zlo/robodog/devel/setup.bash 
 

@@ -556,7 +556,7 @@ void SpotMicroMotionCmd::publishStaticTransforms() {
 
   //camera to base_link transform
   tr_stamped = createTransform("base_link", "camera_link",
-                               0.0, 0.0, 0.0,
+                               0.15, 0.0, 0.0,
                                0.0, 0.0, 0.0);
   static_transform_br_.sendTransform(tr_stamped);
 
