@@ -6,10 +6,10 @@ hip_link_length: 0.055 # Straight line distance of the hip link (horizontal leg 
 upper_leg_link_length: 0.1075 # Straight line distance of the upper leg link, joint to joint
 lower_leg_link_length: 0.130 # Straight line distance of the lower leg link, joint to joint
 body_width: 0.078 # Horizontal width between hip joints
-body_length: 0.186 # Length between shoulder joints
+body_length: 0.200 # Length between shoulder joints
 
 # Stance parameters
-default_stand_height: 0.155   # Height of robot body center when standing
+default_stand_height: 0.210   # Height of robot body center when standing
 stand_front_x_offset: 0.000   # Fwb/back offset of front two legs from default stance
 stand_back_x_offset: 0.000      # Fwd/back offset of back two legs from default stance
 #stand_front_x_offset: -0.010   # Offset better tuned for trot gait

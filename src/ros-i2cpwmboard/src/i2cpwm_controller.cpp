@@ -354,7 +354,7 @@ static float _absmax (float v1, float v2)
 static int _smoothing (float speed)
 {
 	/* if smoothing is desired, then remove the commented code  */
-	// speed = (cos(_PI*(((float)1.0 - speed))) + 1) / 2;
+	speed = (cos(_PI*(((float)1.0 - speed))) + 1) / 2;
 	return speed;
 }
 	
@@ -1017,9 +1017,9 @@ void servos_drive (const geometry_msgs::Twist::ConstPtr& msg)
 	temp_y = _active_drive.scale * _abs(msg->linear.y);
 	temp_r = _abs(msg->angular.z);	// radians
 		
-	// temp_x = _smoothing (temp_x);
-	// temp_y = _smoothing (temp_y);
-	// temp_r = _smoothing (temp_r) / 2;
+	temp_x = _smoothing (temp_x);
+	temp_y = _smoothing (temp_y);
+	temp_r = _smoothing (temp_r) / 2;
 
 	// the differential rate is the robot rotational circumference / angular velocity
 	// since the differential rate is applied to both sides in opposite amounts it is halved

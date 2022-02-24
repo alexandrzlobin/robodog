@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.7.3/nipplejs.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<a class="navbar-brand" href="#">RoboDog</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				
+				<div class="collapse navbar-collapse" id="navbarNavDropdown">
+					<ul class="navbar-nav mx-auto">
+					  <li class="nav-item">
+						<a class="nav-link" href="#" onClick="stand()">Stand</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" href="#" onClick="walk()">Walk</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" href="#" onClick="idle()">Idle</a>
+					  </li>
+					  <li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  Camera
+						</a>
+						<div class="dropdown-menu pl-2" aria-labelledby="navbarDropdownMenuLink" id="camera_manage">
+							<div class="dropdown-item">
+								<label class="form-check-label" for="camera_color">
+									<input type="checkbox" class="form-check-input" id="camera_color" checked="true">Color
+								</label>
+							</div>
+							<div class="dropdown-item">
+								<label class="form-check-label" for="camera_infra1">
+									<input type="checkbox" class="form-check-input" id="camera_infra1">Infra1
+								</label>
+							</div>
+							<div class="dropdown-item">
+								<label class="form-check-label" for="camera_infra2">
+									<input type="checkbox" class="form-check-input" id="camera_infra2">Infra2
+								</label>
+							</div>
+							<div class="dropdown-item">
+								<label class="form-check-label" for="camera_depth">
+									<input type="checkbox" class="form-check-input" id="camera_depth">Depth
+								</label>
+							</div>
+						</div>
+					  </li>
+					</ul>
+				  </div>
+
+				<span class="navbar-text">
+				      <span id="status">Wait connection</span>
+				</span>
+		</nav>
+		<div class="container-fluid">
+		<!--div class="row">
+			<div class="col"><input type="checkbox" label="camera_color"> Color</div>
+			<div class="col"><input type="checkbox" label="camera_infra"> Infra</div>
+		</div-->
+		<div class="row align-items-center mt-5">
+		    <div class="col-2">
+		      <div id="zone_joystick_vel" style="position: relative;"></div>
+		    </div>
+		    <div class="col-8">
+				<div class="row" id="camera-frame">
+					<div class="col camera" data-frame="camera_color">
+						<div class="card">
+							<img class="card-img-top" id="compressed_color" src="#" style="height: 100%; width: 100%; object-fit: contain">
+							<div class="card-body">
+								<p class="card-text">Color</p>
+							</div>
+						</div>
+					</div>
+					<div class="col camera" data-frame="camera_infra1">
+						<div class="card">
+							<img src="http://192.168.1.66:8080/stream?topic=/camera/infra1/image_rect_raw" style="height: 100%; width: 100%; object-fit: contain">
+							<div class="card-body">
+								<p class="card-text">Infra1</p>
+							</div>
+						</div>	
+					</div>
+					<div class="col camera" data-frame="camera_infra2">
+						<div class="card">
+							<img src="http://192.168.1.66:8080/stream?topic=/camera/infra2/image_rect_raw" style="height: 100%; width: 100%; object-fit: contain">
+							<div class="card-body">
+								<p class="card-text">Infra2</p>
+							</div>
+						</div>
+					</div>
+					<div class="col camera" data-frame="camera_depth">
+						<div class="card">
+							<img src="http://192.168.1.66:8080/stream?topic=/camera/aligned_depth_to_color/image_raw" style="height: 100%; width: 100%; object-fit: contain">
+							<div class="card-body">
+								<p class="card-text">Depth</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+		    <!--img id="my_image" style="height: 100%; width: 100%; object-fit: contain" src="static/images/noimage.jpg"></img-->
+		    </div>
+		    <div class="col-2">
+		      <div id="zone_joystick_ang" style="position: relative;"></div>
+		    </div>
+		</div>
+	</div>
+
+  <p><span id="msg"></span></p>
+ 
+ <script type="text/javascript" type="text/javascript">
+    var ros = new ROSLIB.Ros({
+      url: 'ws://192.168.1.66:9090'
+    });
+
+image_topic = new ROSLIB.Topic({
+  ros: ros, 
+  name: '/camera/color/compressed/image_raw',
+  messageType: 'sensor_msgs/CompressedImage'
+});
+
+
+image_topic.subscribe(function(message) {
+	var imagedata = "data:image/jpeg;base64," + message.data;
+	console.log('Received message on ' + listener.name);
+  document.getElementById('compressed_color').src(imagedata);
+  //image_topic.unsubscribe();
+});
+
+    var txt_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/txt_msg',
+      messageType: 'std_msgs/String'
+    });
+
+    txt_listener.subscribe(function (m) {
+      document.getElementById("msg").innerHTML = m.data;
+      move(1, 0);
+    });
+
+
+cmd_walk_listener = new ROSLIB.Topic({
+	ros: ros,
+	name: "/walk_cmd",
+	messageType: 'std_msgs/Bool'
+});
+
+
+cmd_walk_listener.subscribe(function (m) {
+      walk();
+	cmd_walk_listener.unsubscribe();
+    });
+
+walk = function (){
+	var walk = new ROSLIB.Message(
+		{data: true}
+	);
+	
+      cmd_walk_listener.publish(walk);
+}
+
+cmd_stand_listener = new ROSLIB.Topic({
+	ros: ros,
+	name: "/stand_cmd",
+	messageType: 'std_msgs/Bool'
+});
+
+
+cmd_stand_listener.subscribe(function (m) {
+      stand();
+	cmd_stand_listener.unsubscribe();
+    });
+
+stand = function (){
+	var stand = new ROSLIB.Message(
+		{data: true}
+	);
+	
+      cmd_stand_listener.publish(stand);
+}
+
+
+cmd_idle_listener = new ROSLIB.Topic({
+	ros: ros,
+	name: "/idle_cmd",
+	messageType: 'std_msgs/Bool'
+});
+
+cmd_idle_listener.subscribe(function (m) {
+      idle();
+	cmd_idle_listener.unsubscribe();
+    });
+
+idle = function (){
+	var idle = new ROSLIB.Message(
+		{data: true}
+	);
+	
+      cmd_idle_listener.publish(idle);
+}
+
+    cmd_vel_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: "/cmd_vel",
+      messageType: 'geometry_msgs/Twist'
+    });
+
+    move = function (linear, angular) {
+      var twist = new ROSLIB.Message({
+        linear: {
+          x: linear,
+          y: 0,
+          z: 0
+        },
+        angular: {
+          x: 0,
+          y: 0,
+          z: angular
+        }
+      });
+      cmd_vel_listener.publish(twist);
+    }
+
+    createJoystickVel = function () {
+      var options = {
+        zone: document.getElementById('zone_joystick_vel'),
+        threshold: 0.1,
+        position: { left: '50%', top: '50%'},
+        mode: 'static',
+        size: 150,
+        color: '#000000',
+      };
+      manager = nipplejs.create(options);
+
+      linear_speed = 0;
+      angular_speed = 0;
+
+      manager.on('start', function (event, nipple) {
+        timer = setInterval(function () {
+          move(linear_speed, angular_speed);
+        }, 25);
+      });
+
+      manager.on('move', function (event, nipple) {
+        max_linear = 0.16; // m/s
+        max_angular = 0.1 // rad/s
+        max_distance = 75.0; // pixels;
+        linear_speed = Math.sin(nipple.angle.radian) * max_linear * nipple.distance/max_distance;
+	angular_speed = -Math.cos(nipple.angle.radian) * max_angular * nipple.distance/max_distance;
+      });
+
+      manager.on('end', function () {
+        if (timer) {
+          clearInterval(timer);
+        }
+        self.move(0, 0);
+      });
+    }
+
+
+createJoystickAng = function () {
+      var options = {
+        zone: document.getElementById('zone_joystick_ang'),
+        threshold: 0.1,
+        position: { right: '50%', top: '50%' },
+        mode: 'static',
+        size: 150,
+        color: '#000000',
+      };
+      manager = nipplejs.create(options);
+
+      linear_speed = 0;
+      angular_speed = 0;
+
+      manager.on('start', function (event, nipple) {
+        timer = setInterval(function () {
+          move(linear_speed, angular_speed);
+        }, 25);
+      });
+
+      manager.on('move', function (event, nipple) {
+        max_linear = 5.0; // m/s
+        max_angular = 2.0; // rad/s
+        max_distance = 75.0; // pixels;
+        linear_speed = Math.sin(nipple.angle.radian) * max_linear * nipple.distance/max_distance;
+				angular_speed = -Math.cos(nipple.angle.radian) * max_angular * nipple.distance/max_distance;
+      });
+
+      manager.on('end', function () {
+        if (timer) {
+          clearInterval(timer);
+        }
+        self.move(0, 0);
+      });
+    }
+
+
+$(document).ready(function() {
+
+	ros.on('connection', function () {
+		$('#status').html('Connected').addClass('text-success');
+    });
+
+	ros.on('error', function (error) {
+		$('#status').html('Error').addClass('text-danger');
+    });
+
+    ros.on('close', function () {
+		$('#status').html('Closed').addClass('text-warning');
+    });
+	
+    createJoystickAng();
+	createJoystickVel();
+	
+	$('#camera_manage input.form-check-input').each(function(){
+		let checkbox = $(this);
+		let frame = $("#camera-frame .camera[data-frame='"+checkbox.attr('id')+"']");
+		if (checkbox.is(':checked')){
+			frame.show();
+		} else {
+			frame.hide();
+		}
+	});
+	
+	$('#camera_manage input.form-check-input').click(function(){
+		let checkbox = $(this);
+		let frame = $("#camera-frame .camera[data-frame='"+checkbox.attr('id')+"']");
+		if (checkbox.is(':checked')){
+			frame.show();
+		} else {
+			frame.hide();
+		}
+	});
+
+});
+
+  </script>
+ 
+</body>
+
+</html>
