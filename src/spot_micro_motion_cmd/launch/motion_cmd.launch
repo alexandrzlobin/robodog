@@ -6,7 +6,6 @@
     <!-- Optional command line argument to run this node standalone (without i2c_pwmboard)  -->
     <!-- Useful for running or debugging program on a PC instead of a rpi -->
     <arg name="run_standalone" default="false"/>
-	<arg name="run_gui" default="false"/>
 	<arg name="run_realsense" default="false"/>
     <!-- Run debug mode -->
     <arg name="debug_mode" default="false"/>
@@ -38,9 +37,6 @@
     <!-- If run_lcd is true, also run the lcd monitor node on the rpi by including it's launch file -->
     <group if="$(arg run_lcd)">
         <include file="$(find lcd_monitor)/launch/lcd_monitor.launch"/>
-    </group>
-	<group if="$(arg run_gui)">
-        <include file="$(find robot_gui_bridge)/launch/websocket.launch"/>
     </group>
 	<group if="$(arg run_realsense)">
 	<include file="$(find realsense2_camera)/launch/rs_camera.launch"/>
