@@ -18,12 +18,9 @@ sudo apt-get install ros-melodic-web-video-server
 
 ## GUI
 
-roscore
-rosrun web_video_server web_video_server
-cd src/robot_gui_gridge/gui
-python3 -m http.server 8000
+roslaunch roswww gui.launch
 
-The gui page http://localhost:8000
+The gui page http://<robot_ip>:8000/roswww/
 
 
 ## RUN SLAM
