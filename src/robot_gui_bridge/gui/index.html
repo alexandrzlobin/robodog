@@ -40,6 +40,11 @@
 								</label>
 							</div>
 							<div class="dropdown-item">
+								<label class="form-check-label" for="camera_object_detection">
+									<input type="checkbox" class="form-check-input" id="camera_object_detection">Object Detection
+								</label>
+							</div>
+							<div class="dropdown-item">
 								<label class="form-check-label" for="camera_infra1">
 									<input type="checkbox" class="form-check-input" id="camera_infra1">Infra1
 								</label>
@@ -81,6 +86,14 @@
 								<p class="card-text">Color</p>
 							</div>
 						</div>
+					</div>
+					<div class="col camera" data-frame="camera_object_detection">
+						<div class="card">
+							<img src="http://192.168.1.66:8080/stream?topic=/darknet_ros/detection_image" style="height: 100%; width: 100%; object-fit: contain">
+							<div class="card-body">
+								<p class="card-text">Object detection</p>
+							</div>
+						</div>	
 					</div>
 					<div class="col camera" data-frame="camera_infra1">
 						<div class="card">
