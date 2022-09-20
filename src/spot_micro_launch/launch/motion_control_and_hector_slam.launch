@@ -9,7 +9,7 @@
     <!-- not in post processing mode -->
     <group unless="$(arg run_post_proc)">
         <!-- Spot micro motion command node, also runs servo control node -->
-        <include file="$(find spot_micro_motion_cmd)/launch/motion_cmd.launch" pass_all_args="true" />
+        <!--include file="$(find spot_micro_motion_cmd)/launch/motion_cmd.launch" pass_all_args="true" /-->
 
         <!-- Launch rplidar node for lidar driver -->
         <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
