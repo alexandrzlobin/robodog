@@ -5,17 +5,15 @@
     <!-- Argument for running post processing mode. If run_post_proc is true, -->
     <!-- then only hector_mapping node is run. -->
     <arg name="run_post_proc" default="false"/>
-
     <!-- Launch spot micro motion command and rplidar nodes, only if -->
     <!-- not in post processing mode -->
     <group unless="$(arg run_post_proc)">
         <!-- Spot micro motion command node, also runs servo control node -->
-        <include file="$(find spot_micro_motion_cmd)/launch/motion_cmd.launch" />
-
+        <!--include file="$(find spot_micro_motion_cmd)/launch/motion_cmd.launch" pass_all_args="true" /-->
 
         <!-- Launch rplidar node for lidar driver -->
         <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
-            <param name="serial_port"         type="string" value="/dev/ttyUSB1"/>
+            <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
             <param name="serial_baudrate"     type="int"    value="115200"/><!--A1/A2 -->
             <param name="frame_id"            type="string" value="lidar_link"/>
             <param name="inverted"            type="bool"   value="false"/>
@@ -23,7 +21,6 @@
             <param name="scan_mode"     type="string" value="Express"/>
         </node>
     </group>
-
 
     <!-- Launch hector mapping node for SLAM -->
     <arg name="geotiff_map_file_path" default="$(find hector_geotiff)/maps"/>
@@ -66,6 +63,10 @@
         <param name="pub_debug_output" value="true"/>
         -->
         <param name="tf_map_scanmatch_transform_frame_name" value="scanmatcher_frame" />
+    </node>
+
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_odom_node" output="screen" >
+       <rosparam command="load" file="$(find robot_localization)/params/ukf_template.yaml" />
     </node>
 
 <!-- Optional hector geotiff mapper node for creating geotiff map output -->

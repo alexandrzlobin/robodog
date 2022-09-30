@@ -10,6 +10,8 @@ Panels:
         - /TF1
         - /Imu1
         - /LaserScan1
+        - /Odometry1
+        - /Map1
       Splitter Ratio: 0.5
     Tree Height: 306
   - Class: rviz/Selection
@@ -131,6 +133,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         lidar_link:
           Alpha: 1
           Show Axes: false
@@ -206,6 +212,8 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
+        camera_link:
+          Value: true
         front_left_foot_link:
           Value: true
         front_left_leg_link:
@@ -270,6 +278,8 @@ Visualization Manager:
           odom:
             base_footprint:
               base_link:
+                camera_link:
+                  {}
                 front_left_shoulder_link:
                   front_left_leg_link:
                     front_left_foot_link:
@@ -286,6 +296,8 @@ Visualization Manager:
                         {}
                     front_right_leg_link_cover:
                       {}
+                imu_link:
+                  {}
                 lidar_link:
                   {}
                 rear_left_shoulder_link:
@@ -304,8 +316,6 @@ Visualization Manager:
                         {}
                     rear_right_leg_link_cover:
                       {}
-            imu_link:
-              {}
           scanmatcher_frame:
             {}
       Update Interval: 0
@@ -347,6 +357,40 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Angle Tolerance: 0.10000000149011612
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Keep: 100
+      Name: Odometry
+      Position Tolerance: 0.10000000149011612
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /odometry/filtered
+      Unreliable: false
+      Value: true
     - Alpha: 0.699999988079071
       Class: rviz/Map
       Color Scheme: map
@@ -361,7 +405,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: base_footprint
     Frame Rate: 30
   Name: root
   Tools:
@@ -400,10 +444,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.3397977948188782
+      Pitch: 0.44979700446128845
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.8967698216438293
+      Yaw: 2.8817591667175293
     Saved: ~
 Window Geometry:
   Displays:
@@ -421,5 +465,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1321
-  X: 114
-  Y: 68
+  X: 102
+  Y: -22

@@ -6,7 +6,6 @@
     <!-- Optional command line argument to run this node standalone (without i2c_pwmboard)  -->
     <!-- Useful for running or debugging program on a PC instead of a rpi -->
     <arg name="run_standalone" default="false"/>
-
     <!-- Run debug mode -->
     <arg name="debug_mode" default="false"/>
 
@@ -38,6 +37,5 @@
     <group if="$(arg run_lcd)">
         <include file="$(find lcd_monitor)/launch/lcd_monitor.launch"/>
     </group>
-
 
 </launch>

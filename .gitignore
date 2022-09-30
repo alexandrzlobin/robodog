@@ -1,4 +1,4 @@
-/build/
-.catkin_tools
+build/
+.catkin_tools/
 .catkin_workspace
-/devel/
+devel/

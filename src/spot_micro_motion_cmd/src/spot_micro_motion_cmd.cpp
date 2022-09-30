@@ -256,14 +256,16 @@ void SpotMicroMotionCmd::publishServoProportionalCommand() {
                                    (smnc_.servo_max_angle_deg*M_PI/180.0f);
  
     if (servo_proportional_cmd > 1.0f) {
-      servo_proportional_cmd = 1.0f;
-      ROS_WARN("Proportional Command above +1.0 was computed, clipped to 1.0");
-      ROS_WARN("Joint %s, Angle: %1.2f", servo_name.c_str(), cmd_ang_rad*180.0/M_PI);
+		ROS_WARN("Proportional Command above +1.0 was computed (%f), clipped to 1.0", servo_proportional_cmd);
+		ROS_WARN("Servo %d, Joint %s, Angle: %1.2f", servo_num, servo_name.c_str(), cmd_ang_rad*180.0/M_PI);
+		servo_proportional_cmd = 1.0f;
+      
  
     } else if (servo_proportional_cmd < -1.0f) {
-      servo_proportional_cmd = -1.0f;
-      ROS_WARN("Proportional Command below -1.0 was computed, clipped to -1.0");
-      ROS_WARN("Joint %s, Angle: %1.2f", servo_name.c_str(), cmd_ang_rad*180.0/M_PI);
+      
+      ROS_WARN("Proportional Command below -1.0 was computed (%f), clipped to -1.0", servo_proportional_cmd);
+      ROS_WARN("Servo %d, Joint %s, Angle: %1.2f", servo_num, servo_name.c_str(), cmd_ang_rad*180.0/M_PI);
+	  servo_proportional_cmd = -1.0f;
     }
  
     servo_array_.servos[servo_num-1].servo = servo_num;
@@ -543,6 +545,18 @@ void SpotMicroMotionCmd::publishStaticTransforms() {
   // base_link to rear_link transform
   tr_stamped = createTransform("base_link", "rear_link",
                                0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0);
+  static_transform_br_.sendTransform(tr_stamped);
+  
+  //imu link to base_link transform
+  tr_stamped = createTransform("base_link", "imu_link",
+                               0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0);
+  static_transform_br_.sendTransform(tr_stamped);
+
+  //camera to base_link transform
+  tr_stamped = createTransform("base_link", "camera_link",
+                               0.15, 0.0, 0.0,
                                0.0, 0.0, 0.0);
   static_transform_br_.sendTransform(tr_stamped);
 

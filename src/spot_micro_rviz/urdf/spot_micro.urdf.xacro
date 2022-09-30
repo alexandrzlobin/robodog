@@ -10,6 +10,9 @@
   <material name="grey">
     <color rgba="0.6 0.6 0.6 1"/>
   </material>
+  <material name="aluminum">
+    <color rgba="0.5 0.5 0.5 1"/>
+  </material>
 
   <!-- Params -->
 
@@ -38,8 +41,15 @@
   <xacro:property name="shiftx" value="0.093" />
   <xacro:property name="shifty" value="0.039" />
 
-  <!-- Macros -->
+  <xacro:property name="d435_cam_width" value="0.090"/>
+  <xacro:property name="d435_cam_height" value="0.025"/>
+  <xacro:property name="d435_cam_depth" value="0.02505"/>
+  <xacro:property name="d435_cam_mount_from_center_offset" value="0.172"/>
+  <xacro:property name="d435_cam_depth_py" value="0"/>
+  <xacro:property name="M_PI" value="3.1415926535897931" />
 
+  <!-- Macros -->
+  
   <xacro:macro name="gen_shoulder" params="name left">
     <link name="${name}">
       <visual>
@@ -255,21 +265,43 @@
       <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
     </inertial>
   </link>
+  <!--IMU-->
+    <link name="imu_link">
+    <visual>
+      <origin xyz="0 0 0"/>
+      <box size="0.01 0.01 0.01"/>
+    </visual>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+  </joint> 
 
-  <!--Camera-->  
-   <joint name="base_camera" type="fixed">
-  <parent link="base_link"/>
-  <child link="camera_link" />
-</joint>   
-<link name="camera_link">
-  <visual>
-    <geometry>
-      <box size="0.01 0.05 0.01"/>
-    </geometry>
-    <material name="black"/> 
-    <origin rpy="0 0 3.14159" xyz="0.165 0 0.098"/>
-  </visual>
-</link>
+  <!--Camera-->
+  <link name="camera_link">
+    <visual>
+        <origin xyz="${d435_cam_mount_from_center_offset} ${-d435_cam_depth_py} 0.01" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+        <geometry>
+	   <mesh filename="package://spot_micro_rviz/urdf/stl/d435.stl" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="1 ${-d435_cam_depth_py} 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${d435_cam_depth} ${d435_cam_width} ${d435_cam_height}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <!-- The following are not reliable values, and should not be used for modeling -->
+        <mass value="0.564" />
+        <origin xyz="${d435_cam_mount_from_center_offset} ${-d435_cam_depth_py} 0.01" />
+        <inertia ixx="0.003881243" ixy="0.0" ixz="0.0" iyy="0.000498940" iyz="0.0" izz="0.003879257" />
+      </inertial>
+  </link>
+  <joint name="camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+  </joint> 
   <!-- Lidar Backpack -->
 
    <link name="lidar_link">
@@ -351,5 +383,4 @@
   <xacro:gen_full_leg_joint pos="front_right" shiftx="${shiftx}" shifty="-${shifty}" shift="-${shift}" left="false"/>
   <xacro:gen_full_leg_joint pos="rear_left" shiftx="-${shiftx}" shifty="${shifty}" shift="${shift}" left="true"/>
   <xacro:gen_full_leg_joint pos="rear_right" shiftx="-${shiftx}" shifty="-${shifty}" shift="-${shift}" left="false"/>
-
 </robot>
