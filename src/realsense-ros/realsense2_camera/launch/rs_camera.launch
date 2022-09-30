@@ -25,8 +25,8 @@
 
   <arg name="infra_width"         default="640"/>
   <arg name="infra_height"        default="480"/>
-  <arg name="enable_infra"        default="false"/>
-  <arg name="enable_infra1"       default="false"/>
+  <arg name="enable_infra"        default="true"/>
+  <arg name="enable_infra1"       default="true"/>
   <arg name="enable_infra2"       default="false"/>
   <arg name="infra_rgb"           default="false"/>
 
@@ -146,6 +146,6 @@
       <arg name="ordered_pc"               value="$(arg ordered_pc)"/>
       
     </include>
-	<!--node name="rgb_compress" type="republish" pkg="image_transport" output="screen" args="compressed in:=/camera/color/image_raw raw out:=/camera/color/compressed/image_raw" /-->
+	<!--node name="republish" type="republish" pkg="image_transport" output="screen" args="compressed in:=/camera/color/compressed/image_raw raw out:=/camera/color/image_raw"/-->
   </group>
 </launch>
